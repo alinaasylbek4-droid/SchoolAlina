@@ -7,7 +7,7 @@ $year = strftime('%Y');
 
 /*
  * Ағымдағы сағатты 00-ден 23-ке дейінгі жол түрінде аламыз
- * және оны 0-ден 23-ке дейінгі бүтін санға түрлендіреміз.
+ * және оны бүтін санға түрлендіреміз.
  */
 $hour = (int) strftime('%H');
 $welcome = ''; // Сәлемдесу үшін айнымалы
@@ -23,6 +23,15 @@ if ($hour >= 0 && $hour < 6) {
 } else {
     $welcome = 'Доброе время суток';
 }
+
+// Инициализация массива
+$leftMenu = [
+  ['link'=>'Домой', 'href'=>'index.php'],
+  ['link'=>'О нас', 'href'=>'about.php'],
+  ['link'=>'Контакты', 'href'=>'contact.php'],
+  ['link'=>'Таблица умножения', 'href'=>'table.php'],
+  ['link'=>'Калькулятор', 'href'=>'calc.php']
+];
 ?>
 <!DOCTYPE html>
 <html>
@@ -67,24 +76,19 @@ if ($hour >= 0 && $hour < 6) {
     <!-- Навигация -->
     <h2>Навигация по сайту</h2>
     <!-- Меню -->
-    <ul>
-      <li><a href='index.php'>Домой</a>
-      </li>
-      <li><a href='about.php'>О нас</a>
-      </li>
-      <li><a href='contact.php'>Контакты</a>
-      </li>
-      <li><a href='table.php'>Таблица умножения</a>
-      </li>
-      <li><a href='calc.php'>Калькулятор</a>
-      </li>
-    </ul>
+    <?php
+    echo '<ul>';
+    foreach ($leftMenu as $item) {
+        echo "<li><a href='{$item['href']}'>{$item['link']}</a></li>";
+    }
+    echo '</ul>';
+    ?>
     <!-- Меню -->
     <!-- Навигация -->
   </div>
   <div id="footer">
     <!-- Нижняя часть страницы -->
-    &copy; Супер Мега Веб-мастер, 2000 &ndash; <?= $year ?>
+    &copy; Супер Мега Веб-мастер, 2000 &ndash; 2021
     <!-- Нижняя часть страницы -->
   </div>
 </body>
