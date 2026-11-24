@@ -1,5 +1,5 @@
 <?php
-// Локальді орнату және күн мәндерін таңдау
+
 setlocale(LC_ALL, "russian");
 $year = strftime('%Y');
 ?>

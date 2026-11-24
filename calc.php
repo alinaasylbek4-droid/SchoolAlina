@@ -1,7 +1,52 @@
 <?php
-// Локальді орнату және күн мәндерін таңдау
 setlocale(LC_ALL, "russian");
 $year = strftime('%Y');
+
+
+$message = '';
+
+// Упражнение 1: данные принимаем только методом POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+   
+    $num1     = isset($_POST['num1'])     ? trim($_POST['num1'])     : '';
+    $num2     = isset($_POST['num2'])     ? trim($_POST['num2'])     : '';
+    $operator = isset($_POST['operator']) ? trim($_POST['operator']) : '';
+
+    if ($num1 === '' || $num2 === '' || $operator === '') {
+        $message = 'Ошибка: заполните все поля.';
+
+    } elseif (filter_var($num1, FILTER_VALIDATE_INT) === false ||
+              filter_var($num2, FILTER_VALIDATE_INT) === false) {
+        $message = 'Ошибка: числа должны быть целыми.';
+
+    } else {
+        $num1 = (int) $num1;
+        $num2 = (int) $num2;
+
+        // Упражнение 2: действие зависит от оператора
+        switch ($operator) {
+            case '+':
+                $message = "Результат $num1 + $num2 = " . ($num1 + $num2);
+                break;
+            case '-':
+                $message = "Результат $num1 - $num2 = " . ($num1 - $num2);
+                break;
+            case '*':
+                $message = "Результат $num1 * $num2 = " . ($num1 * $num2);
+                break;
+            case '/':
+                if ($num2 === 0) {
+                    $message = 'Ошибка: на ноль делить нельзя.';
+                } else {
+                    $message = "Результат $num1 / $num2 = " . ($num1 / $num2);
+                }
+                break;
+            default:
+                $message = 'Ошибка: неверный оператор. Допустимы: + - * /';
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -26,18 +71,24 @@ $year = strftime('%Y');
     <h1>Калькулятор школьника</h1>
     <!-- Заголовок -->
     <!-- Область основного контента -->
-    <form action=''>
+    <?php
+    // Упражнение 3: результат выводим перед формой
+    if ($message !== '') {
+        echo '<p><b>', htmlspecialchars($message), '</b></p>';
+    }
+    ?>
+    <form action='' method='post'>
       <label>Число 1:</label>
       <br />
-      <input name='num1' type='text' />
+      <input name='num1' type='text' value="<?= isset($_POST['num1']) ? htmlspecialchars($_POST['num1']) : '' ?>" />
       <br />
       <label>Оператор: </label>
       <br />
-      <input name='operator' type='text' />
+      <input name='operator' type='text' value="<?= isset($_POST['operator']) ? htmlspecialchars($_POST['operator']) : '' ?>" />
       <br />
       <label>Число 2: </label>
       <br />
-      <input name='num2' type='text' />
+      <input name='num2' type='text' value="<?= isset($_POST['num2']) ? htmlspecialchars($_POST['num2']) : '' ?>" />
       <br />
       <br />
       <input type='submit' value='Считать'>
@@ -63,7 +114,7 @@ $year = strftime('%Y');
   </div>
   <div id="footer">
     <!-- Нижняя часть страницы -->
-    &copy; Супер Мега Веб-мастер, 2000 &ndash; <?= $year ?>
+    &copy; Супер Мега Веб-мастер, 2000 &ndash;  <?= $year ?>
     <!-- Нижняя часть страницы -->
   </div>
 </body>

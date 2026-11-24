@@ -1,5 +1,9 @@
 <?php
 
+
+setlocale(LC_ALL, "russian");
+$year = strftime('%Y');
+
 function drawTable($cols, $rows, $color)
 {
     echo "<table border='1' cellpadding='5' style='background-color: $color;'>";
@@ -90,7 +94,7 @@ if (!preg_match('/^#?[A-Za-z0-9]{1,20}$/', $color)) { $color = 'white'; }
   </div>
   <div id="footer">
     <!-- Нижняя часть страницы -->
-    &copy; Супер Мега Веб-мастер, 2000 &ndash; 2021
+    &copy; Супер Мега Веб-мастер, 2000 &ndash; <?= $year ?>
     <!-- Нижняя часть страницы -->
   </div>
 </body>
